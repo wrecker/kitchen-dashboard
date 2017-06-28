@@ -1,0 +1,2 @@
+Flask-SQLAlchemy==2.2
+flask-restful

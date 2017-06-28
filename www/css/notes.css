@@ -1,0 +1,207 @@
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+html {
+    font-family: 'Roboto Slab', sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+    margin: 0;
+}
+
+form {
+  margin-bottom: 0;
+}
+
+button,input,optgroup,select,textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+.clearfix:before,.clearfix:after {
+    content: " ";
+    display: table
+}
+
+.clearfix:after {
+    clear: both
+}
+
+*,*:before,*:after {
+    box-sizing: inherit
+}
+
+body {
+    font-family: 'Roboto Slab', 'Lucida Grande', tahoma, verdana, arial, sans-serif;
+    background: #f1f2f5;
+    text-align: center;
+    font-weight: 300;
+    box-sizing: border-box
+}
+
+html,body {
+    height: 100%
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+.show {
+    opacity: 1;
+    -webkit-transition: opacity 200ms linear;
+    transition: opacity 200ms linear;
+    -webkit-transition-delay: 1s;
+    transition-delay: 1s
+}
+
+.selected-list {
+    box-sizing: border-box;
+    border-radius: 3px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+    margin: 0px auto;
+    top: 0px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.selected-list {
+     font-family: 'Architects Daughter', sans-serif;
+     font-size: 16px;
+     color: #282625;
+     margin: 0 auto;
+}
+
+.paper {
+  position: relative;
+  border: 1px solid #B5B5B5;
+  background: white;
+}
+
+.paper::after {
+  content:'';
+  position:absolute;
+  width:0px;
+  top:0;
+  left:39px;
+  bottom:0;
+  border-left:1px solid #F8D3D3;
+}
+
+@media only screen and (max-width: 760px) {
+    .selected-list {
+        box-shadow:none;
+        max-width: 760px;
+        padding: 0
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .lists .selected-list {
+        box-shadow:none;
+        padding: 0
+    }
+}
+
+#stats {
+    position: relative;
+    padding: 0 92px 0 46px;
+    height: 50px;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.08)
+}
+
+.note-header {
+  padding: 0;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08)
+}
+@media only screen and (min-width: 761px) {
+    #stats {
+        padding-left:0
+    }
+}
+
+.note-header h2 {
+    color: #545862;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    line-height: 20px;
+    margin: 0;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.selected-list {
+    text-align: left;
+    position: relative
+}
+
+.todo {
+    position: relative;
+    background-color: #fff;
+    padding: 0px 50px;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-weight: 300;
+    -webkit-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+    box-sizing: content-box;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000
+}
+
+.todo .label {
+    width: 100%;
+    padding: 5px 0px;
+    line-height: 20px;
+    word-wrap: break-word
+}
+
+.todo .label {
+    display: block
+}
+
+.clone-source {
+    display: none;
+}
+
+.items {
+    position: relative;
+    text-align: left
+}
+
+#add-item li {
+    padding: 0px;
+    background: white;
+    border-bottom: 1px solid rgba(0,0,0,0.08)
+}
+
+#add-item li input[type=text] {
+    width: 100%;
+    padding: 0 50px;
+    line-height: 50px;
+    height: 50px;
+    border: none;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.chromeless-input {
+    border: none !important;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    resize: none
+}

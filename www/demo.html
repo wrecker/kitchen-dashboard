@@ -15,15 +15,16 @@
           // otherwise they'd all just say "list"
           views: {
             listDay: { buttonText: 'list day' },
-            listWeek: { buttonText: 'list week' }
+            listWeek: { buttonText: 'list week', listDayFormat: 'ddd', listDayAltFormat: 'MMM D'}
           },
           defaultView: 'listWeek',
           navLinks: false, // can click day/week names to navigate views
           editable: false,
           eventLimit: true, // allow "more" link when too many events
+          defaultDate: '2017-06-12',
           eventSources: [
             {
-              url: "/www/events2.json",
+              url: "/events2.json",
               backgroundColor: "#bfe185",
               color: "#93C00B",
               className: "class1"
@@ -40,13 +41,16 @@
         font-size: 14px;
       }
       #calendar {
-        max-width: 900px;
-        margin: 0 auto;
+        max-width: 700px;
+        margin: 0;
       }
     </style>
   </head>
   <body>
-    <div id='calendar'></div>
+    <div id='calendar' style="float:left"></div>
+
+    <div id='weather' style="float:left">
+<iframe src="http://forecast.io/embed/#lat=37.1824&lon=-121.8439&name=San Jose"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 600px;height: 320px"></iframe>
+</div>
   </body>
 </html>
-

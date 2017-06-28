@@ -1,0 +1,173 @@
+<html>
+<head>
+
+  <title>Maithri List</title>
+
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" media="all" href="css/list-application.css">
+  <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="/iphone.png" media="screen and (max-device-width: 360px)">
+
+</head>
+
+<body class="lists lists-show list-is-selected" style="cursor: auto;">
+
+  <div class="show desktop">
+
+    <div class="selected-list paper">
+      <div class="note-header">
+        <h2 title="untitled">untitled</h2>
+      </div>
+
+      <div class="list">
+        <ul class="items ui-sortable">
+
+        </ul>
+        <ul id="add-item">
+          <li>
+            <form id="add-item-form">
+              <input id="new-item" class="chromeless-input" placeholder="Add to your list..." type="text" name="content">
+            </form>
+          </li>
+        </ul>
+        <ul style="display:none">
+          <li class="clearfix todo clone-source">
+            <button class="toggle" title="Check!" alt="Check!" tabindex="0">
+                <svg class="icon-check"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="img/icons.svg#icon-check"></use></svg>
+            </button>
+            <div class="view">
+              <label class="label" tabindex="0" contenteditable="true"></label>
+            </div>
+            <svg class="destroy icon-trash-o"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="img/icons.svg#icon-trash-o"></use></svg>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(function() {
+  $(".items").on("focusin", ".label", function(e) { beginEditing(this); });
+
+  $(".items").on("focusout", ".label", function(e) {
+    finishEditing(this);
+  });
+
+  $(".items").on("click", ".toggle", function(e) {
+    $(this).closest("li").toggleClass("completed")
+  });
+
+  $(".items").on("keydown", ".label", function(e) {
+    if(e.keyCode == 13) {
+      e.preventDefault();
+      finishEditing(this);
+      $(this).blur();
+    }
+  });
+  getData();
+})
+
+function beginEditing(row) {
+  // Save the current value to check later
+  currContent = $(row).text();
+  $(row).closest("li").data("content", currContent);
+  $(this).closest("li").addClass("editing");
+}
+
+function finishEditing(row) {
+  li = $(row).closest("li");
+  currContent = $(row).text();
+  prevContent = $(li).data("content");
+  if (currContent != prevContent) {
+    console.log($(li).find(".label").text() + " " + $(li).data("list-id") + " " + $(li).data("task-id"));
+  } else {
+    console.log("No Change in content");
+  }
+  $(this).closest("li").removeClass("editing");
+}
+
+function updateTask(elem) {
+  li = $(elem).closest("li");
+  console.log($(li).find(".label").text() + " " + $(li).data("list-id") + " " + $(li).data("task-id"));
+}
+
+function getData() {
+  $.ajax(
+		{
+			url : "http://localhost:8081/list/1/tasks",
+			type: "GET",
+			dataType: "json",
+      success:function(data, textStatus, jqXHR)
+			{
+        tasks = jqXHR.responseJSON.tasks;
+        tasks.sort(function(a,b){
+          return a.sort_order - b.sort_order;
+        });
+        $(".items").empty();
+        tasks.forEach(function(item, index) {
+          addTask(item);
+        });
+			}
+		});
+}
+
+function addTask(task) {
+  cloned = $(".clone-source").clone().removeClass("clone-source");
+  $(cloned).find(".label").html(task.content);
+  $(cloned).data("list-id", task.list_id);
+  $(cloned).data("task-id", task.id);
+  $(".items").append(cloned);
+}
+
+
+$("#add-item-form").submit(function(e) {
+  e.preventDefault();
+  var data = {};
+  var Form = this;
+
+  $.each(this.elements, function(i, v){
+    var input = $(v);
+    data[input.attr("name")] = input.val();
+    delete data["undefined"];
+  });
+
+  if (!data["content"]) {
+    return;
+  }
+
+  //Save Form Data.
+  $.ajax({
+      cache: false,
+      url : "http://localhost:8081/list/1/tasks",
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType : "json",
+      data : JSON.stringify(data),
+      context : Form,
+      success : function(data, textStatus, jqXHR){
+          //Where $(this) => context == FORM
+          $(this).find("input[type=text], textarea").val("");
+          task = jqXHR.responseJSON.task;
+          addTask(task);
+      },
+  });
+
+});
+
+
+function jsonCallback(json){
+  content = JSON.parse(json.content);
+  console.log(content);
+}
+</script>
+
+</html>
