@@ -1,0 +1,290 @@
+* {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  /*border: 1px solid #999;*/
+}
+
+body {
+  font-family: Roboto, Arial;
+  font-size: 0.8em;
+  color: #fff;
+  background: #fff;
+  overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  background-size: contain;
+}
+
+.icon.chanceflurries {
+  background-image: url('../img/icons/white/svg/chanceflurries.svg');
+}
+
+.icon.chancerain {
+  background-image: url('../img/icons/white/svg/chancerain.svg');
+}
+
+.icon.chancesleet {
+  background-image: url('../img/icons/white/svg/chancesleet.svg');
+}
+
+.icon.chancesnow {
+  background-image: url('../img/icons/white/svg/chancesnow.svg');
+}
+
+.icon.chancetstorms {
+  background-image: url('../img/icons/white/svg/chancetstorms.svg');
+}
+
+.icon.clear {
+  background-image: url('../img/icons/white/svg/clear.svg');
+}
+
+.icon.cloudy {
+  background-image: url('../img/icons/white/svg/cloudy.svg');
+}
+
+.icon.flurries {
+  background-image: url('../img/icons/white/svg/flurries.svg');
+}
+
+.icon.fog {
+  background-image: url('../img/icons/white/svg/fog.svg');
+}
+
+.icon.hazy {
+  background-image: url('../img/icons/white/svg/hazy.svg');
+}
+
+.icon.mostlycloudy {
+  background-image: url('../img/icons/white/svg/mostlycloudy.svg');
+}
+
+.icon.mostlysunny {
+  background-image: url('../img/icons/white/svg/mostlysunny.svg');
+}
+
+.icon.partlycloudy {
+  background-image: url('../img/icons/white/svg/partlycloudy.svg');
+}
+
+.icon.partlysunny {
+  background-image: url('../img/icons/white/svg/partlysunny.svg');
+}
+
+.icon.rain {
+  background-image: url('../img/icons/white/svg/rain.svg');
+}
+
+.icon.sleet {
+  background-image: url('../img/icons/white/svg/sleet.svg');
+}
+
+.icon.snow {
+  background-image: url('../img/icons/white/svg/snow.svg');
+}
+
+.icon.sunny {
+  background-image: url('../img/icons/white/svg/sunny.svg');
+}
+
+.icon.tstorms {
+  background-image: url('../img/icons/white/svg/tstorms.svg');
+}
+
+.icon.unknown {
+  background-image: url('../img/icons/white/svg/unknown.svg');
+}
+
+.weather-forecast {
+  padding: 10px;
+  display: inline-block;
+  background: #313a39;
+  border-radius: 10px;
+  max-width: 600px;
+}
+
+/* Header row */
+
+.location {
+  font-size: 1.5em;
+  color: #ccc;
+  margin-bottom: 5px;
+  padding-left: 20px;
+}
+
+.date {
+
+}
+
+.desc {
+  font-weight: bold;
+  font-size: larger;
+  padding-left: 20px;
+}
+
+/* Current Weather Summary */
+.current {
+  overflow: auto;
+  width:100%;
+  margin-bottom: 5px;
+}
+
+.current .visual {
+  width: 33%;
+  float: left;
+}
+
+.current .description {
+  width: 50%;
+  float: left;
+}
+
+/* Current Weather - Visual */
+
+.visual .icon {
+  width: 64px;
+  height: 64px;
+}
+
+.temp {
+  font-size: 2.5em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.scale {
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 6px;
+  color: #888;
+}
+
+/* General Labels */
+
+.wind:before {
+  content: "Wind: ";
+  color: #888;
+}
+
+.precip:before {
+  content: "Precipitation: ";
+  color: #888;
+}
+
+.humidity:before {
+  content: "Humidity: ";
+  color: #888;
+}
+
+.pollen:before {
+  content: "Pollen Count: ";
+  color: #888;
+}
+
+.pcount:before {
+  content: "Pollen ";
+  color: #888;
+}
+
+
+/* Seven Day Forecast */
+
+.seven-day div {
+  vertical-align: middle;
+}
+
+.seven-day-fc {
+
+  margin: 0 -11px -1px -11px;
+  padding: 0;
+}
+
+.seven-day-fc div {
+  display: inline-block;
+}
+
+.seven-day-fc .date {
+  font-weight: bold;
+  color: ##ddd;
+}
+
+.seven-day-fc .icon {
+  width: 50px;
+  height: 50px;
+}
+
+.seven-day-fc .seven-day-temp {
+  text-align: center;
+}
+
+.seven-day-fc .temp-high {
+  color: #bf862a;
+
+}
+
+.seven-day-fc .temp-low {
+  color: #5f9fb9;
+}
+
+.seven-day-fc .temp-low,
+.seven-day-fc .temp-high {
+  display: block;
+}
+
+.seven-day-fc .pcount {
+  text-align: center;
+}
+
+
+
+body {
+  font-size: 1.0em;
+}
+
+.weather-forecast {
+  width: 100%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+
+.seven-day-fc {
+  display: inline-block;
+  width: 13.5%;
+  margin: 0;
+  border: none;
+  font-size: 0.8em;
+}
+
+.seven-day-fc div {
+  display: block;
+  text-align: center;
+}
+
+.seven-day-fc .date {
+  text-align: center;
+}
+
+.seven-day-fc .temp-low,
+.seven-day-fc .temp-high {
+  display: inline;
+  font-size: 1.2em;
+}
+
+.seven-day-fc .seven-day-temp {
+  font-size: 1.25em;
+  margin: 0 auto;
+}
+
+.seven-day-fc .icon {
+  width: 64px;
+  height: 64px;
+}

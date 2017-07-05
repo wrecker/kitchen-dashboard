@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Animated CSS clock</title>
+    <!-- https://www.bitsarefun.com/tutorials/create-animate-clock-css3/ -->
+      <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        #clock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: white;
+            transform: scale(0.4, 0.4);
+            transform-origin:0px 0px;
+            background-color: transparent;
+        }
+
+        #clock-back {
+            position:absolute;
+            width: 300px;
+            height: 300px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            border: 8px solid #fbfbfb;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+            background-color: #404040;
+            background: radial-gradient(ellipse at center, #505050 0%, #303030 100%);
+        }
+
+        #clock #quarters div {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width: 8px;
+            height: 24px;
+            margin-left: -4px;
+            margin-top: -12px;
+            background-color: #bbb;
+        }
+
+        #clock #quarters div:first-child  {transform:rotate(0deg)   translateY(-120px)}
+        #clock #quarters div:nth-child(2) {transform:rotate(90deg)  translateY(-120px)}
+        #clock #quarters div:nth-child(3) {transform:rotate(180deg) translateY(-120px)}
+        #clock #quarters div:nth-child(4) {transform:rotate(270deg) translateY(-120px)}
+
+        #clock #five-minutes div {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width: 4px;
+            height: 12px;
+            margin-left: -2px;
+            margin-top: -6px;
+            background-color: #bbb;
+        }
+
+        #clock #five-minutes div:first-child  {transform:rotate(30deg)   translateY(-120px)}
+        #clock #five-minutes div:nth-child(2) {transform:rotate(60deg)   translateY(-120px)}
+        #clock #five-minutes div:nth-child(3) {transform:rotate(120deg)  translateY(-120px)}
+        #clock #five-minutes div:nth-child(4) {transform:rotate(150deg)  translateY(-120px)}
+        #clock #five-minutes div:nth-child(5) {transform:rotate(210deg)  translateY(-120px)}
+        #clock #five-minutes div:nth-child(6) {transform:rotate(240deg)  translateY(-120px)}
+        #clock #five-minutes div:nth-child(7) {transform:rotate(300deg)  translateY(-120px)}
+        #clock #five-minutes div:nth-child(8) {transform:rotate(330deg)  translateY(-120px)}
+
+        @keyframes clock { 100% { transform:rotate(360deg) } }
+
+        #hours-hand {
+            position: absolute;
+            top:50%;
+            left:50%;
+            width: 10px;
+            height: 125px;
+            margin-left: -5px;
+            margin-top: -100px;
+            transform-origin:5px 100px;
+            background-color: #fdfdfd;
+            border-radius: 5px;
+            animation: clock 43200s steps(60, end) infinite;
+        }
+
+
+        #minutes-hand {
+            position: absolute;
+            top:50%;
+            left:50%;
+            width: 8px;
+            height: 140px;
+            margin-left: -4px;
+            margin-top: -120px;
+            transform-origin:4px 120px;
+            background-color: #fdfdfd;
+            border-radius: 4px;
+            animation: clock 3600s steps(60, end) infinite;
+        }
+
+        /*
+        #seconds-hand {
+            position: absolute;
+            top:50%;
+            left:50%;
+            width: 4px;
+            height: 146px;
+            margin-left: -2px;
+            margin-top: -123px;
+            transform-origin:2px 123px;
+            background-color: #e10000;
+            animation: clock 60s steps(60, end) infinite;
+        }
+        */
+
+        #center-cap {
+            position: absolute;
+            top:50%;
+            left:50%;
+            width: 18px;
+            height: 18px;
+            margin-left: -9px;
+            margin-top: -9px;
+            background-color: #e10000;
+            border-radius: 50%;
+        }
+
+        h2 {
+          margin: 0 auto;
+          padding: 0;
+          font-size: 24px;
+          text-align: center;
+          font-family: "Josefin Sans", sans-serif;
+        }
+
+    </style>
+
+    <script>
+        /* Set the clock to the current time */
+
+        function setCurrentTime() {
+
+            var date = new Date();
+
+            var hours = date.getHours() % 12;
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+
+            var hoursHand = document.getElementById("hours-hand");
+            hoursHand.style.animationDelay = - ( (hours * 3600) + (minutes * 60) + seconds ) + "s";
+
+            var minutesHand = document.getElementById("minutes-hand");
+            minutesHand.style.animationDelay = - ( (minutes * 60) + seconds ) + "s";
+
+            var secondsHand = document.getElementById("seconds-hand");
+            secondsHand.style.animationDelay = -seconds + "s";
+
+        }
+
+        function ready(fn) {
+            if (document.readyState != 'loading'){
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
+            }
+        }
+
+        ready(setCurrentTime);
+
+
+    </script>
+
+</head>
+<body>
+    <h2>Home</h2>
+    <div id="clock">
+
+        <div id="clock-back"></div>
+
+        <div id="quarters">
+            <div></div><div></div><div></div><div></div>
+        </div>
+
+        <div id="five-minutes">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+
+        <div id="hours-hand"></div>
+        <div id="minutes-hand"></div>
+        <div id="seconds-hand"></div>
+        <div id="center-cap"></div>
+    </div>
+
+</body>
+</html>

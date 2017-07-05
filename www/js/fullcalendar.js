@@ -15439,7 +15439,6 @@ var ListViewGrid = Grid.extend({
 				));
 
 				this.sortEventSegs(daySegs);
-				console.log("No of Segments: " + daySegs.length)
 				for (i = 0; i < daySegs.length; i++) {
 					tbodyEl.append(daySegs[i].el); // append event row
 				}

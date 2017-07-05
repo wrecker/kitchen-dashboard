@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- // [START mqweather2] -->
+    <link rel="stylesheet" href="css/weather.css">
+    <!-- // [END mqweather2] -->
+    <title>Weather Forecast</title>
+  </head>
+  <body>
+    <div class="weather-forecast" role="main">
+      <div class="location"></div>
+      <div class="current">
+        <div class="visual">
+          <div class="desc"></div>
+          <div class="icon"></div>
+          <div class="temp"></div>
+          <div class="scale">&deg;F</div>
+        </div>
+        <!--
+        <div class="visual">
+          <div class="desc">Moon Phase</div>
+          <div class="desc"><img src="http://tombrown.xyz/images/moon.php?phase=0.5" width="64px" height="64px"></div>
+        </div>
+      -->
+      </div>
+
+      <div class="seven-day">
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+        <div class="seven-day-fc">
+          <div class="date"></div>
+          <div class="icon"></div>
+          <div class="seven-day-temp">
+            <div class="temp-high"></div>
+            <div class="temp-low"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+$(function() {
+  getCurrentCondition();
+  getWeatherForecast();
+});
+
+function getCurrentCondition() {
+  weatherUrl = "https://api.wunderground.com/api/SECRETKEY/conditions/q/CA/San_Jose.json";
+  $.ajax({
+		url : weatherUrl,
+		type: "GET",
+		dataType: "json",
+    success:function(data, textStatus, jqXHR)
+		{
+      conditions = jqXHR.responseJSON.current_observation;
+      $(".location").text(conditions.display_location.full);
+      $(".current .desc").text(conditions.weather);
+      $(".current .icon").removeClass().addClass("icon").addClass(conditions.icon);
+      $(".current .temp").text(Math.round(conditions.temp_f));
+		}
+	});
+}
+
+function getWeatherForecast() {
+  weatherUrl = "https://api.wunderground.com/api/SECRETKEY/forecast10day/q/CA/San_Jose.json";
+  $.ajax({
+		url : weatherUrl,
+		type: "GET",
+		dataType: "json",
+    success:function(data, textStatus, jqXHR)
+		{
+      forecast = jqXHR.responseJSON.forecast.simpleforecast;
+      $(".seven-day-fc").each(function(index) {
+        $(this).find(".date").text(forecast.forecastday[index].date.weekday_short);
+        $(this).find(".icon").removeClass().addClass("icon").addClass(forecast.forecastday[index].icon);
+        $(this).find(".temp-high").html(forecast.forecastday[index].high.fahrenheit + "&deg;");
+        $(this).find(".temp-low").html(forecast.forecastday[index].low.fahrenheit + "&deg;");
+      });
+
+		}
+	});
+}
+
+
+  </script>
+</html>

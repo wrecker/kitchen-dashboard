@@ -15,7 +15,7 @@
           // otherwise they'd all just say "list"
           views: {
             listDay: { buttonText: 'list day' },
-            listWeek: { buttonText: 'list week', listDayFormat: 'ddd', listDayAltFormat: 'MMM D'}
+            listWeek: { buttonText: 'list week'}
           },
           defaultView: 'listWeek',
           navLinks: false, // can click day/week names to navigate views
@@ -24,7 +24,7 @@
           defaultDate: '2017-06-12',
           eventSources: [
             {
-              url: "/events2.json",
+              url: "events2.json",
               backgroundColor: "#bfe185",
               color: "#93C00B",
               className: "class1"
@@ -39,18 +39,32 @@
         padding: 0;
         font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
         font-size: 14px;
+
       }
       #calendar {
-        max-width: 700px;
+        max-width: 600px;
         margin: 0;
       }
     </style>
   </head>
   <body>
-    <div id='calendar' style="float:left"></div>
+    <div class="col1" style="float:left; margin:0;padding:0;width:610px">
+      <div id='calendar'></div>
+    </div>
 
-    <div id='weather' style="float:left">
-<iframe src="http://forecast.io/embed/#lat=37.1824&lon=-121.8439&name=San Jose"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 600px;height: 320px"></iframe>
-</div>
+    <div class="col2" style="float:left; margin:0;padding:0;width:610px">
+      <div id='weather' style="float:left; margin-left: 0px">
+        <iframe src="weather.html"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 600px;height: 250px"></iframe>
+      </div>
+      <iframe src="list.html?listId=1&display=0"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 290px;height: 450px;margin: 10px 10px 10px 0;"></iframe>
+      <iframe src="list.html?listId=2&display=0"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 290px;height: 450px;margin: 10px 10px 10px 0;"></iframe>
+    </div>
+
+    <div class="col3" style="float:left; margin:0;padding:0;width:125px">
+      <iframe src="clock.html"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 124px;height: 160px"></iframe>
+      <iframe src="clock-japan.html"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 124px;height: 160px"></iframe>
+      <iframe src="clock-dubai.html"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 124px;height: 160px"></iframe>
+    </div>
+
   </body>
 </html>

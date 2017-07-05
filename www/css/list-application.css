@@ -204,7 +204,7 @@ html {
 }
 
 body {
-    background: #f1f2f5;
+    background: #fff;
     text-align: center;
     font-weight: 300;
     box-sizing: border-box
@@ -269,7 +269,7 @@ i {
     box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
     margin: 0px auto;
     top: 0px;
-    max-width: 400px;
+    max-width: 280px;
     width: 100%;
 }
 
@@ -282,7 +282,7 @@ i {
 .paper {
 position: relative;
 border: 1px solid #B5B5B5;
-background: white;
+background: #fbffcd;
 }
 
 .paper::after {
@@ -491,17 +491,17 @@ input[type=text],input[type=email],textarea {
     }
 }
 
-.note-header {
+.list-header {
   padding: 0;
-  background: #fff;
+  background: inherit;
   border-bottom: 1px solid rgba(0,0,0,0.08)
 }
 
-.note-header h2 {
+.list-header h2 {
     color: #545862;
     font-size: 24px;
     font-weight: 700;
-    padding: 1rem 3rem;
+    padding: 1.5rem 3rem 0.5rem;
     line-height: 20px;
     margin: 0;
     width: 100%;
@@ -1209,8 +1209,8 @@ footer a,footer a:hover {
 
 .todo {
     position: relative;
-    background-color: #fff;
-    padding: 0px 50px;
+    background-color: inherit;
+    padding: 0 30px 0 50px;
     font-size: 18px;
     border-bottom: 1px solid rgba(0,0,0,0.08);
     font-weight: 300;
@@ -1324,21 +1324,34 @@ footer a,footer a:hover {
     word-wrap: break-word
 }
 
-.todo .destroy {
+/*.todo .destroy { */
+.view+.destroy {
     opacity: 0.5;
-    display: none;
+    /* display: none; */
+    visibility: hidden;
     position: absolute;
     width: 1.4rem;
     height: 30px;
-    padding: 0 .25rem;
-    margin: 0 .5rem;
+    padding: 0 .10rem;
+    margin: 0 .25rem;
     cursor: pointer;
     overflow: hidden;
     top: 0px;
     color: #333;
     right: 0px;
+    /*
     -webkit-transition: all 200ms ease-in-out;
     transition: all 200ms ease-in-out
+    */
+}
+
+.view {
+  margin-right: -30px;
+  padding-right: 30px;
+}
+
+.view:hover +.destroy, .destroy:hover {
+  visibility: visible;
 }
 
 @media only screen and (min-device-width: 768px) {
@@ -1352,7 +1365,7 @@ footer a,footer a:hover {
 }
 
 .todo.editing {
-    background-color: #fffeca
+    background-color: #eee;
 }
 
 .todo.editing .edit {
@@ -1364,9 +1377,11 @@ footer a,footer a:hover {
   text-decoration: none;
 }
 
+/*
 .todo.editing .destroy {
     display: block
 }
+*/
 
 .todo .edit {
     display: none
@@ -1381,13 +1396,13 @@ footer a,footer a:hover {
     text-align: left
 }
 
-#add-item li {
+.add-item li {
     padding: 0px;
     background: white;
     border-bottom: 1px solid rgba(0,0,0,0.08)
 }
 
-#add-item li input[type=text] {
+.add-item li input[type=text] {
     width: 100%;
     padding: 0 50px;
     line-height: 50px;
@@ -1395,24 +1410,6 @@ footer a,footer a:hover {
     border: none;
     font-style: italic;
     font-size: 18px;
-}
-
-#add-item li #submit-new-item {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 0;
-    background-image: url("/assets/enter-b06ec7fb441bc0e40d61ba975a0291ad.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 40px;
-    height: 50px;
-    cursor: pointer
 }
 
 .pages-preview {

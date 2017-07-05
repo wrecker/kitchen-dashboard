@@ -21,18 +21,18 @@
   <div class="show desktop">
 
     <div class="selected-list paper">
-      <div class="note-header">
-        <h2 title="untitled">untitled</h2>
+      <div class="list-header">
+        <h2 class="list-title"></h2>
       </div>
 
       <div class="list">
         <ul class="items ui-sortable">
 
         </ul>
-        <ul id="add-item">
+        <ul class="add-item">
           <li>
-            <form id="add-item-form">
-              <input id="new-item" class="chromeless-input" placeholder="Add to your list..." type="text" name="content">
+            <form class="add-item-form">
+              <input class="chromeless-input" placeholder="Add to your list..." type="text" name="content">
             </form>
           </li>
         </ul>
@@ -56,58 +56,194 @@
 <script type="text/javascript">
 
 $(function() {
-  $(".items").on("focusin", ".label", function(e) { beginEditing(this); });
+  queryParams = getUrlQueryParams();
+  display = queryParams["display"] || 1;
+  if (display) {
+    $(".items").on("focusin", ".label", function(e) { beginEditing(this); });
 
-  $(".items").on("focusout", ".label", function(e) {
-    finishEditing(this);
-  });
-
-  $(".items").on("click", ".toggle", function(e) {
-    $(this).closest("li").toggleClass("completed")
-  });
-
-  $(".items").on("keydown", ".label", function(e) {
-    if(e.keyCode == 13) {
-      e.preventDefault();
+    $(".items").on("focusout", ".label", function(e) {
       finishEditing(this);
-      $(this).blur();
-    }
-  });
+    });
+
+    $(".items").on("click", ".toggle", function(e) {
+      toggleTaskStatus($(this).closest("li"));
+    });
+
+    $(".items").on("click", ".destroy", function(e) {
+      deleteTask($(this).closest("li"));
+    });
+
+    $(".items").on("keydown", ".label", function(e) {
+      if(e.keyCode == 13) {
+        e.preventDefault();
+        finishEditing(this);
+        $(this).blur();
+      }
+    });
+
+    $(".add-item-form").submit(addNewTask);
+  }
   getData();
 })
 
-function beginEditing(row) {
-  // Save the current value to check later
-  currContent = $(row).text();
-  $(row).closest("li").data("content", currContent);
-  $(this).closest("li").addClass("editing");
+// https://stackoverflow.com/questions/4656843/jquery-get-querystring-from-url
+function getUrlQueryParams()
+{
+    var params = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        params.push(hash[0]);
+        params[hash[0]] = hash[1];
+    }
+    return params;
 }
 
-function finishEditing(row) {
-  li = $(row).closest("li");
-  currContent = $(row).text();
+function getListId() {
+  queryParams = getUrlQueryParams();
+  return queryParams["listId"] || 1
+}
+
+function addNewTask(e) {
+  e.preventDefault();
+  var data = {};
+  var Form = this;
+
+  $.each(this.elements, function(i, v){
+    var input = $(v);
+    data[input.attr("name")] = input.val();
+    delete data["undefined"];
+  });
+
+  if (!data["content"]) {
+    return;
+  }
+  listId = getListId();
+  taskUrl = location.protocol + "//" + location.host + "/list/" + listId + "/tasks";
+  //Save Form Data.
+  $.ajax({
+      cache: false,
+      url : taskUrl,
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType : "json",
+      data : JSON.stringify(data),
+      context : Form,
+      success : function(data, textStatus, jqXHR){
+          //Where $(this) => context == FORM
+          $(this).find("input[type=text], textarea").val("");
+          task = jqXHR.responseJSON.task;
+          addTask(task);
+      },
+  });
+}
+
+function toggleTaskStatus(row) {
+  data = {"done": false};
+  if (! $(row).hasClass("completed")) {
+      data["done"] = true;
+  }
+  taskId = $(row).data("taskId");
+  taskUrl = location.protocol + "//" + location.host + "/tasks/" + taskId;
+
+  $.ajax(
+    {
+      url : taskUrl,
+      type: "PUT",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(data),
+      context: row,
+      success: function(data, textStatus, jqXHR) {
+        console.log("toggleTaskStatus: Task updated.")
+        $(row).toggleClass("completed");
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // Restore the original content
+        console.log("toggleTaskStatus: Task update Failed: " + errorThrown);
+      }
+    });
+}
+
+function deleteTask(row) {
+  taskId = $(row).data("taskId");
+  taskUrl = location.protocol + "//" + location.hos + "/tasks/" + taskId;
+  $.ajax(
+    {
+      url : taskUrl,
+      type: "DELETE",
+      context: row,
+      success: function(data, textStatus, jqXHR) {
+        console.log("deleteTask: Task deleted.")
+        $(row).hide().remove();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // Restore the original content
+        console.log("deleteTask: Task deleted failed: " + errorThrown);
+      }
+    });
+}
+
+function beginEditing(label) {
+  // Save the current value to check later
+  currContent = $(label).text();
+  $(label).closest("li").data("content", currContent);
+  $(label).closest("li").addClass("editing");
+}
+
+function finishEditing(label) {
+  li = $(label).closest("li");
+  taskId = $(li).data("taskId");
+  listId = $(li).data("listId");
+  currContent = $(label).text();
   prevContent = $(li).data("content");
+  taskUrl = location.protocol + "//" + location.host + "/tasks/" + taskId;
+
+  var data = {};
+  data["content"] = $(label).text();
+
   if (currContent != prevContent) {
-    console.log($(li).find(".label").text() + " " + $(li).data("list-id") + " " + $(li).data("task-id"));
+    console.log($(li).find(".label").text() + " " + listId + " " + taskId);
+    $.ajax(
+  		{
+  			url : taskUrl,
+  			type: "PUT",
+        contentType: "application/json; charset=utf-8",
+  			dataType: "json",
+        data: JSON.stringify(data),
+        context: li,
+        success: function(data, textStatus, jqXHR) {
+          console.log("finishEditing: Task updated.")
+  			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          // Restore the original content
+          $(this).find(".label").text($(this).data("content"));
+          console.log("finishEditing: Task update Failed: " + errorThrown);
+        }
+  		});
+
   } else {
     console.log("No Change in content");
   }
-  $(this).closest("li").removeClass("editing");
-}
-
-function updateTask(elem) {
-  li = $(elem).closest("li");
-  console.log($(li).find(".label").text() + " " + $(li).data("list-id") + " " + $(li).data("task-id"));
+  $(li).removeClass("editing");
 }
 
 function getData() {
+
+  queryParams = getUrlQueryParams();
+  listId = queryParams["listId"] || 1
+  taskUrl = location.protocol + "//" + location.host + "/list/" + listId + "/tasks";
+
   $.ajax(
 		{
-			url : "http://localhost:8081/list/1/tasks",
+			url : taskUrl,
 			type: "GET",
 			dataType: "json",
       success:function(data, textStatus, jqXHR)
 			{
+        list = jqXHR.responseJSON.list;
+        $(".list-title").text(list.title);
         tasks = jqXHR.responseJSON.tasks;
         tasks.sort(function(a,b){
           return a.sort_order - b.sort_order;
@@ -123,46 +259,13 @@ function getData() {
 function addTask(task) {
   cloned = $(".clone-source").clone().removeClass("clone-source");
   $(cloned).find(".label").html(task.content);
-  $(cloned).data("list-id", task.list_id);
-  $(cloned).data("task-id", task.id);
+  $(cloned).data("listId", task.list_id);
+  $(cloned).data("taskId", task.id);
+  if (task.done) {
+    $(cloned).addClass("completed");
+  }
   $(".items").append(cloned);
 }
-
-
-$("#add-item-form").submit(function(e) {
-  e.preventDefault();
-  var data = {};
-  var Form = this;
-
-  $.each(this.elements, function(i, v){
-    var input = $(v);
-    data[input.attr("name")] = input.val();
-    delete data["undefined"];
-  });
-
-  if (!data["content"]) {
-    return;
-  }
-
-  //Save Form Data.
-  $.ajax({
-      cache: false,
-      url : "http://localhost:8081/list/1/tasks",
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType : "json",
-      data : JSON.stringify(data),
-      context : Form,
-      success : function(data, textStatus, jqXHR){
-          //Where $(this) => context == FORM
-          $(this).find("input[type=text], textarea").val("");
-          task = jqXHR.responseJSON.task;
-          addTask(task);
-      },
-  });
-
-});
-
 
 function jsonCallback(json){
   content = JSON.parse(json.content);
