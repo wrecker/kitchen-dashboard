@@ -1,9 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-html {
-    font-family: 'Josefin Sans', sans-serif;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%
-}
 
 body {
     margin: 0
@@ -199,13 +196,9 @@ td,th {
     box-sizing: inherit
 }
 
-html {
-    font-size: 15px
-}
 
 body {
     background: #fff;
-    text-align: center;
     font-weight: 300;
     box-sizing: border-box
 }
@@ -279,13 +272,16 @@ i {
      margin: 0 auto;
 }
 
-.paper {
+.list-container, .paper {
 position: relative;
 border: 1px solid #B5B5B5;
 background: #fbffcd;
+font-family: 'Josefin Sans', sans-serif;
+max-width: 400px;
+margin: 0 auto;
 }
 
-.paper::after {
+.list-container::after, .paper::after {
   content:'';
   position:absolute;
   width:0px;

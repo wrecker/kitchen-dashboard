@@ -27,5 +27,8 @@ do
         echo "        \"end\": \"${end_date}\""
         c=$(($c+1))
 done < "${1:-/dev/stdin}"
-echo "    }"
+if [ $c -gt 0 ]
+then
+        echo "    }"
+fi
 echo "]"

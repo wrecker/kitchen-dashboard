@@ -1,0 +1,14 @@
+/* Styles specific to the dashboard display */
+
+/* for todo list display */
+
+.list-container {
+  width: 290px;
+  float: left;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+ul.add-item {
+  display: none;
+}

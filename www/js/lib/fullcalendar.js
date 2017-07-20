@@ -13094,6 +13094,7 @@ function EventManager() { // assumed to be a calendar
 				if (endParam) {
 					data[endParam] = rangeEnd.format();
 				}
+
 				if (t.opt('timezone') && t.opt('timezone') != 'local') {
 					data[timezoneParam] = t.opt('timezone');
 				}
@@ -15159,7 +15160,6 @@ var AgendaView = FC.AgendaView = View.extend({
 // TODO: move into TimeGrid
 var agendaTimeGridMethods = {
 
-
 	// Generates the HTML that will go before the day-of week header cells
 	renderHeadIntroHtml: function() {
 		var view = this.view;
@@ -15562,7 +15562,7 @@ fcViews.listDay = {
 
 fcViews.listWeek = {
 	type: 'list',
-	duration: { weeks: 1 },
+	duration: { weeks: 2 },
 	defaults: {
 		listDayFormat: 'dddd', // day-of-week is more important
 		listDayAltFormat: 'LL'
